@@ -1,0 +1,55 @@
+name: Microsoft Pages — BDD Test Automation
+
+on:
+  push:
+    branches:
+      - "**"           # every branch
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  generate-and-test:
+    name: Generate Features & Run BDD Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run agent — generate Gherkin feature files
+        run: python agent/test_generator_agent.py --generate
+
+      - name: Run BDD tests
+        run: |
+          pytest tests/ -v --tb=short \
+            --html=reports/test-report.html \
+            --self-contained-html
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{ github.run_number }}
+          path: reports/
+          retention-days: 14
