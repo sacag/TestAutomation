@@ -24,6 +24,9 @@ Feature: Microsoft Overview Page
   Scenario: Section "Artificial Intelligence" is present
     Then I should see the heading "Artificial Intelligence"
 
+  Scenario: Section "Financial Highlights" is present
+    Then I should see the heading "Financial Highlights"
+
   Scenario: Section "Official Resources" is present
     Then I should see the heading "Official Resources"
 
@@ -37,7 +40,9 @@ Feature: Microsoft Overview Page
     Then the page body should contain "Headquarters: Redmond, Washington, USA"
 
   Scenario: External links open in a new browser tab
-    Then the link "Microsoft Official Website" should be present
+    Then the link "Microsoft Investor Relations" should be present
+    And the link "Microsoft Investor Relations" should open in a new tab
+    And the link "Microsoft Official Website" should be present
     And the link "Microsoft Official Website" should open in a new tab
     And the link "Microsoft Azure" should be present
     And the link "Microsoft Azure" should open in a new tab

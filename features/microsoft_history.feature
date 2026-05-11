@@ -54,6 +54,9 @@ Feature: Microsoft History Page
   Scenario: Section "2023 - AI Leadership with OpenAI" is present
     Then I should see the heading "2023 - AI Leadership with OpenAI"
 
+  Scenario: Section "2024 - Activision Blizzard Acquisition" is present
+    Then I should see the heading "2024 - Activision Blizzard Acquisition"
+
   Scenario: Section "Today" is present
     Then I should see the heading "Today"
 
@@ -82,6 +85,8 @@ Feature: Microsoft History Page
     And the link "GitHub" should open in a new tab
     And the link "OpenAI" should be present
     And the link "OpenAI" should open in a new tab
+    And the link "Activision Blizzard" should be present
+    And the link "Activision Blizzard" should open in a new tab
 
   Scenario: Navigation link is present and functional
     When I click the link "Home - About Microsoft"
