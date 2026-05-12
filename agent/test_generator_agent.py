@@ -114,16 +114,26 @@ def generate_feature(page_name: str, data: dict, background_step: str, nav_targe
             "",
         ]
 
-    # --- external links open in new tab ---
+    # --- external links: presence ---
     if data["external_links"]:
-        lines += ["  Scenario: External links open in a new browser tab"]
+        lines += ["  Scenario: External links are present on the page"]
+        first = True
+        for link in data["external_links"]:
+            safe = link["text"].replace('"', "'")
+            keyword = "Then" if first else "And"
+            lines += [f'    {keyword} the link "{safe}" should be present']
+            first = False
+        lines += [""]
+
+    # --- external links: reachability + new tab (click and verify) ---
+    if data["external_links"]:
+        lines += ["  Scenario: External links open a reachable page in a new browser tab"]
         first = True
         for link in data["external_links"]:
             safe = link["text"].replace('"', "'")
             keyword = "Then" if first else "And"
             lines += [
-                f'    {keyword} the link "{safe}" should be present',
-                f'    And the link "{safe}" should open in a new tab',
+                f'    {keyword} the link "{safe}" should open a reachable page in a new tab',
             ]
             first = False
         lines += [""]

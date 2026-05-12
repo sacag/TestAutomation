@@ -39,21 +39,23 @@ Feature: Microsoft Overview Page
   Scenario: Page contains expected body text
     Then the page body should contain "Headquarters: Redmond, Washington, USA"
 
-  Scenario: External links open in a new browser tab
+  Scenario: External links are present on the page
     Then the link "Microsoft Investor Relations" should be present
-    And the link "Microsoft Investor Relations" should open in a new tab
     And the link "Microsoft Official Website" should be present
-    And the link "Microsoft Official Website" should open in a new tab
     And the link "Microsoft Azure" should be present
-    And the link "Microsoft Azure" should open in a new tab
     And the link "Microsoft on GitHub" should be present
-    And the link "Microsoft on GitHub" should open in a new tab
     And the link "Microsoft on LinkedIn" should be present
-    And the link "Microsoft on LinkedIn" should open in a new tab
     And the link "Microsoft on Wikipedia" should be present
-    And the link "Microsoft on Wikipedia" should open in a new tab
     And the link "Microsoft Blog" should be present
-    And the link "Microsoft Blog" should open in a new tab
+
+  Scenario: External links open a reachable page in a new browser tab
+    Then the link "Microsoft Investor Relations" should open a reachable page in a new tab
+    And the link "Microsoft Official Website" should open a reachable page in a new tab
+    And the link "Microsoft Azure" should open a reachable page in a new tab
+    And the link "Microsoft on GitHub" should open a reachable page in a new tab
+    And the link "Microsoft on LinkedIn" should open a reachable page in a new tab
+    And the link "Microsoft on Wikipedia" should open a reachable page in a new tab
+    And the link "Microsoft Blog" should open a reachable page in a new tab
 
   Scenario: Navigation link is present and functional
     When I click the link "Microsoft History"

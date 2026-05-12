@@ -88,13 +88,37 @@ def assert_link_present(page: Page, link_text: str):
     expect(locator.first).to_be_visible()
 
 
-@then(parsers.parse('the link "{link_text}" should open in a new tab'))
-def assert_link_new_tab(page: Page, link_text: str):
+@then(parsers.parse('the link "{link_text}" should open a reachable page in a new tab'))
+def assert_link_reachable_new_tab(page: Page, link_text: str):
     link = page.get_by_role("link", name=link_text).first
+    href = link.get_attribute("href")
     target = link.get_attribute("target")
+
+    # 1. Verify target=_blank so the browser will open a new tab
     assert target == "_blank", (
-        f"Expected link '{link_text}' to have target='_blank', got '{target}'"
+        f"Link '{link_text}' must have target='_blank', got '{target}'"
     )
+
+    # 2. Make an HTTP request to the href and confirm the URL is actually reachable
+    response = page.request.get(href, timeout=30000)
+    assert response.ok, (
+        f"Link '{link_text}' ({href}) returned HTTP {response.status} — URL not reachable"
+    )
+
+    # 3. Click the link and capture the new tab that opens
+    with page.context.expect_page() as new_page_info:
+        link.click()
+    new_tab = new_page_info.value
+    new_tab.wait_for_load_state("domcontentloaded", timeout=30000)
+
+    # 4. Confirm the new tab navigated to a real URL (not a browser error page)
+    assert new_tab.url.startswith("http"), (
+        f"Link '{link_text}' opened unexpected URL in new tab: {new_tab.url}"
+    )
+    assert not new_tab.url.startswith("chrome-error://"), (
+        f"Link '{link_text}' ({href}) failed to load in new tab: {new_tab.url}"
+    )
+    new_tab.close()
 
 
 @then("I should be on the History page")
