@@ -66,27 +66,29 @@ Feature: Microsoft History Page
   Scenario: Page contains expected body text
     Then the page body should contain "Bill Gates and Paul Allen founded Microsoft on April 4, 1975"
 
-  Scenario: External links open in a new browser tab
+  Scenario: External links are present on the page
     Then the link "Bill Gates" should be present
-    And the link "Bill Gates" should open in a new tab
     And the link "Paul Allen" should be present
-    And the link "Paul Allen" should open in a new tab
     And the link "Windows 1.0" should be present
-    And the link "Windows 1.0" should open in a new tab
     And the link "Windows 95" should be present
-    And the link "Windows 95" should open in a new tab
     And the link "Xbox" should be present
-    And the link "Xbox" should open in a new tab
     And the link "Satya Nadella" should be present
-    And the link "Satya Nadella" should open in a new tab
     And the link "Microsoft Azure" should be present
-    And the link "Microsoft Azure" should open in a new tab
     And the link "GitHub" should be present
-    And the link "GitHub" should open in a new tab
     And the link "OpenAI" should be present
-    And the link "OpenAI" should open in a new tab
     And the link "Activision Blizzard" should be present
-    And the link "Activision Blizzard" should open in a new tab
+
+  Scenario: External links open a reachable page in a new browser tab
+    Then the link "Bill Gates" should open a reachable page in a new tab
+    And the link "Paul Allen" should open a reachable page in a new tab
+    And the link "Windows 1.0" should open a reachable page in a new tab
+    And the link "Windows 95" should open a reachable page in a new tab
+    And the link "Xbox" should open a reachable page in a new tab
+    And the link "Satya Nadella" should open a reachable page in a new tab
+    And the link "Microsoft Azure" should open a reachable page in a new tab
+    And the link "GitHub" should open a reachable page in a new tab
+    And the link "OpenAI" should open a reachable page in a new tab
+    And the link "Activision Blizzard" should open a reachable page in a new tab
 
   Scenario: Navigation link is present and functional
     When I click the link "Home - About Microsoft"
